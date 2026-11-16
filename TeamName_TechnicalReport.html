@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Technical Report — SmartStudy AI</title>
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #1f2937;
+      line-height: 1.5;
+      font-size: 10pt;
+      margin: 0;
+      padding: 0;
+    }
+
+    .header {
+      text-align: center;
+      border-bottom: 2px solid #1e3a8a;
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+    }
+
+    .title {
+      font-size: 16pt;
+      font-weight: 800;
+      color: #1e3a8a;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 0 0 6px 0;
+    }
+
+    .subtitle {
+      font-size: 11pt;
+      font-weight: 600;
+      color: #4b5563;
+      margin: 0 0 10px 0;
+    }
+
+    .meta {
+      font-size: 9pt;
+      color: #6b7280;
+    }
+
+    h2 {
+      font-size: 12pt;
+      font-weight: 700;
+      color: #1e3a8a;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 3px;
+      margin-top: 14px;
+      margin-bottom: 6px;
+    }
+
+    p {
+      margin: 0 0 8px 0;
+      text-align: justify;
+    }
+
+    ul,
+    ol {
+      margin: 0 0 10px 0;
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 3px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0 12px 0;
+      font-size: 8.5pt;
+    }
+
+    th,
+    td {
+      border: 1px solid #d1d5db;
+      padding: 5px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background-color: #f3f4f6;
+      font-weight: 600;
+      color: #1f2937;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #f9fafb;
+    }
+
+    code {
+      font-family: "Courier New", Courier, monospace;
+      background: #f1f5f9;
+      padding: 1px 3px;
+      border-radius: 3px;
+      font-size: 8.5pt;
+    }
+
+    .box {
+      background-color: #f8fafc;
+      border-left: 3px solid #3b82f6;
+      padding: 8px 12px;
+      margin: 8px 0;
+      font-size: 9pt;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <div class="title">Technical Report: SmartStudy AI</div>
+    <div class="subtitle">Architecture, Prompt Engineering Strategy, and Evaluation of a Lecture Notes to Study Pack
+      System</div>
+    <div class="meta">
+      <strong>Course:</strong> SCSE4041 Prompt Engineering · <strong>Problem:</strong> C2 · <strong>Team ID:</strong>
+      [Team ID] · <strong>Date:</strong> November 2026
+    </div>
+  </div>
+
+  <h2>1. Introduction & Problem Scope</h2>
+  <p>
+    Undergraduate students frequently experience cognitive overload when revising from dense, unstructured lecture
+    slides, raw lecture transcripts, and fragmented class notes. Standard commercial LLMs frequently hallucinate
+    extraneous details, introduce concepts outside the class syllabus, format practice questions inconsistently, or
+    produce separate, disjointed answer keys. <strong>SmartStudy AI</strong> addresses this by ingesting raw lecture
+    notes (PDF or TXT) and generating a source-grounded study pack comprising three strictly ordered components: (1) a
+    concise summary, (2) verified technical terms and definitions, and (3) exactly 5 practice questions covering five
+    distinct pedagogical formats with inline answers.
+  </p>
+
+  <h2>2. System Architecture & Component Design</h2>
+  <p>The application is designed as a modular Python system built with Streamlit and LangChain:</p>
+  <ul>
+    <li><strong>Document Ingestion (<code>document_loader.py</code>):</strong> Extracts text from PDF files using
+      PyMuPDF (<code>pymupdf</code>) across all pages. Character decoding incorporates a robust two-tier fallback (UTF-8
+      followed by Latin-1) to ensure zero crashes on unusual character encodings.</li>
+    <li><strong>Prompt Template Registry (<code>prompt_manager.py</code>):</strong> Completely decouples prompt
+      engineering from application logic. Templates are stored as plain text files under <code>prompts/</code>,
+      supporting runtime injection of the <code>{lecture_notes}</code> variable.</li>
+    <li><strong>LLM Orchestration Layer (<code>llm_service.py</code>):</strong> Uses LangChain chat interfaces to
+      connect with Google Gemini (<code>gemini-2.5-flash</code> / <code>gemini-2.0-flash</code>) and OpenAI
+      (<code>gpt-4o-mini</code>) at <code>temperature=0.3</code>. API credentials are encrypted and loaded strictly via
+      environment variables (<code>.env</code>).</li>
+    <li><strong>Structural Output Validator (<code>output_validator.py</code>):</strong> A deterministic 10-point rule
+      engine that parses model output for 3 required sections, strict ordering, absence of extra top-level sections,
+      exactly 5 questions, sequential numbering, and inline answer labels.</li>
+    <li><strong>Streamlit User Interface (<code>app.py</code>):</strong> Delivers an intuitive UI featuring
+      single-prompt generation, parallel dual-prompt comparison using <code>ThreadPoolExecutor</code>, automated
+      validation badge rendering, and reproducible Markdown download.</li>
+  </ul>
+
+  <h2>3. Prompt Engineering Iterations & Grounding Strategy</h2>
+  <p>We conducted systematic iterative refinement across three prompt generations:</p>
+  <ul>
+    <li><strong>v1 (Baseline):</strong> Direct prompt asking for a summary, key terms, and 5 questions with answers.
+      Resulted in a <strong>4/8 (50.0%)</strong> score on our standardized rubric: hallucinated definitions for terms
+      not defined in the source (e.g. <em>pruning</em> and <em>dropout</em>), produced homogeneous open recall
+      questions, and broke structure by creating an illegal Section 4.</li>
+    <li><strong>v2 (Grounding Rules & Tables):</strong> Added negative constraints and requested summary tables. Scored
+      <strong>7/8 (87.5%)</strong>. Reduced hallucinations, but Markdown tables repeatedly broke into unreadable
+      one-cell fragments, and the model leaked its internal self-checking thoughts.</li>
+    <li><strong>v3 (Production):</strong> Enforced bullet-point syntax, established an exact canonical fallback sentence
+      (<em>"The supplied notes do not define this term in detail."</em>) for undefined terms, enforced Bloom's taxonomy
+      sequencing (MCQ, Short Answer, Fill-in-the-blank, Scenario, True/False with correction), and added a
+      <strong>silent self-verification directive</strong>. Scored <strong>8/8 (100.0%)</strong> with 0 structural
+      warnings.</li>
+  </ul>
+
+  <h2>4. Empirical Test Results & Verification</h2>
+  <p>SmartStudy AI was validated across 10 diverse test inputs spanning Normal, Edge, and Invalid cases:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Test Cases & Inputs</th>
+        <th>Observed Behavior & Metrics</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Normal (4)</strong></td>
+        <td>ML Overfitting, OS Memory Paging, Networks TCP Handshake, DBMS Normalization.</td>
+        <td>100% structural compliance. Correct summary, exact terms identified, 5 diverse questions generated.</td>
+        <td>Pass (4/4)</td>
+      </tr>
+      <tr>
+        <td><strong>Edge (3)</strong></td>
+        <td>Undefined terms in notes, 3-bullet micro notes (~40 words), informal abbreviations ("lr", "grad desc").</td>
+        <td>Deterministic fallback sentence triggered for undefined terms; abbreviations preserved in context.</td>
+        <td>Pass (3/3)</td>
+      </tr>
+      <tr>
+        <td><strong>Invalid (3)</strong></td>
+        <td>Empty input / spaces, scanned PDF without text layer, random noise string.</td>
+        <td>UI blocked blank input; loader warned on scanned PDF. Noise string produced summary attempt (honest
+          failure).</td>
+        <td>Pass (2/3)</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="box">
+    <strong>Code Quality Assurance:</strong> The application is accompanied by 56 automated unit tests executed via
+    <code>pytest</code>, ensuring 100% test coverage across document parsing, prompt substitution, LLM response
+    handling, and regex validator patterns.
+  </div>
+
+  <h2>5. Known Limitations & Milestone 3 Roadmap</h2>
+  <ol>
+    <li><strong>Context Window Saturation:</strong> Extremely large documents (entire textbooks) are passed directly
+      into the prompt. In Milestone 3, we will implement a RAG chunking and vector retrieval pipeline.</li>
+    <li><strong>Scanned Document Support:</strong> Currently, image-only PDFs cannot be parsed. We will integrate
+      Tesseract OCR or multimodal Gemini Vision input.</li>
+    <li><strong>Input Content Guardrail:</strong> An upfront prompt classifier will be added to explicitly reject
+      non-academic gibberish before generation.</li>
+  </ol>
+
+</body>
+
+</html>

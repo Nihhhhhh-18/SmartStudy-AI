@@ -1,0 +1,51 @@
+# SmartStudy AI — Improved Prompt V2 Evaluation
+
+## Experiment Details
+- Prompt version: Improved V2
+- Input: Machine Learning — Overfitting and Regularization
+- Learner level: Intermediate undergraduate
+- Required practice questions: Exactly 5
+- Comparison baseline: Baseline V1
+
+## Evaluation Checklist
+
+Scoring:
+- 1 = Pass
+- 0 = Fail
+
+| ID | Criterion | Score (0/1) | Evidence / Notes |
+|---|---|---:|---|
+| E1 | Summary covers the main concepts from the lecture notes | 1 | Includes overfitting, underfitting, regularization, cross-validation, other methods to reduce overfitting, and generalization. |
+| E2 | Summary does not introduce unsupported factual claims | 1 | The summary stays close to the supplied notes and explicitly says where detailed procedures are not provided. |
+| E3 | Key terms and definitions are relevant and accurate according to the notes | 1 | Terms are drawn from the notes; for terms lacking detail, the output says so. Some definitions paraphrase the notes, so source support should still be checked carefully. |
+| E4 | Practice question count is exactly 5 | 1 | Exactly five questions are included. |
+| E5 | All 5 questions include answers | 1 | Every question has an answer. |
+| E6 | Questions use a mixture of question types | 1 | Includes multiple choice, short answer, fill-in-the-blanks, scenario-based, and true/false. |
+| E7 | Output has clear headings and readable organization | 0 | The quick revision table and key-term table are malformed into repeated one-cell tables, which reduces readability. |
+| E8 | Output follows the instruction to use only the lecture notes | 1 | The response states that it uses the notes as the only source and flags terms that are not defined in detail. No clear outside facts are apparent, though the definitions should be checked against the source. |
+
+## Total Score
+- Score: 7 / 8
+- Percentage: 87.5%
+
+## Error Analysis
+
+### What improved compared with V1
+- The response explicitly notes when the supplied notes do not define a term in detail.
+- It avoids adding detailed procedures for pruning or dropout.
+- The output includes exactly five questions with answers.
+- It includes a final grounding check.
+
+### What still needs improvement
+- Table formatting is broken: headings and cells appear as separate one-cell tables.
+- Some key terms, such as “training data” and “validation,” are mentioned in the notes but not formally defined there. The response should distinguish a direct definition from a cautious paraphrase.
+- The final grounding check is a claim made by the model; it should not be treated as independent proof that every statement is grounded.
+
+### Changes to test in Prompt V3
+1. Require simple Markdown bullet lists instead of tables, to reduce formatting failures.
+2. Require the model to include only terms explicitly present in the notes and to quote or point to the supporting phrase for each definition when practical.
+3. Keep exactly five questions with answers and retain a mixture of question types.
+4. Keep the final output concise and easy to read.
+
+## Fair-Comparison Note
+Use the same source notes and evaluation checklist for V1 and V2. These scores are a preliminary manual evaluation, not an independently verified benchmark.

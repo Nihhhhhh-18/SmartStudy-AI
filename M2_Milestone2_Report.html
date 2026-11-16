@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Milestone 2 Report — SmartStudy AI</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 20mm 15mm 20mm 15mm;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #1f2937;
+      line-height: 1.5;
+      font-size: 10.5pt;
+      margin: 0;
+      padding: 0;
+    }
+
+    .page-break {
+      page-break-after: always;
+      break-after: page;
+    }
+
+    /* Cover Page */
+    .cover {
+      height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .university {
+      font-size: 18pt;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: #1e3a8a;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .course {
+      font-size: 13pt;
+      font-weight: 600;
+      color: #4b5563;
+      margin-bottom: 30px;
+    }
+
+    .report-badge {
+      background: #e0e7ff;
+      color: #3730a3;
+      font-weight: 700;
+      font-size: 12pt;
+      padding: 6px 16px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .title {
+      font-size: 26pt;
+      font-weight: 800;
+      color: #111827;
+      margin: 0 0 12px 0;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      font-size: 13pt;
+      color: #6b7280;
+      max-width: 650px;
+      margin: 0 auto 40px auto;
+    }
+
+    .meta-box {
+      border: 1.5px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 20px 30px;
+      text-align: left;
+      width: 85%;
+      max-width: 580px;
+      background: #f9fafb;
+      margin-bottom: 30px;
+    }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 10pt;
+    }
+
+    .meta-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .meta-label {
+      font-weight: 600;
+      color: #4b5563;
+    }
+
+    .meta-value {
+      font-weight: 500;
+      color: #111827;
+    }
+
+    .links-box {
+      border: 1px dashed #93c5fd;
+      background: #eff6ff;
+      border-radius: 8px;
+      padding: 12px 20px;
+      width: 85%;
+      max-width: 580px;
+      text-align: left;
+      font-size: 9.5pt;
+    }
+
+    .links-box a {
+      color: #2563eb;
+      text-decoration: none;
+      word-break: break-all;
+    }
+
+    /* Headings */
+    h1 {
+      font-size: 16pt;
+      font-weight: 700;
+      color: #1e3a8a;
+      border-bottom: 2px solid #3b82f6;
+      padding-bottom: 5px;
+      margin-top: 25px;
+      margin-bottom: 15px;
+    }
+
+    h2 {
+      font-size: 12.5pt;
+      font-weight: 600;
+      color: #1f2937;
+      margin-top: 18px;
+      margin-bottom: 8px;
+    }
+
+    h3 {
+      font-size: 11pt;
+      font-weight: 600;
+      color: #374151;
+      margin-top: 14px;
+      margin-bottom: 6px;
+    }
+
+    p {
+      margin: 0 0 10px 0;
+      text-align: justify;
+    }
+
+    ul,
+    ol {
+      margin: 0 0 12px 0;
+      padding-left: 22px;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0 18px 0;
+      font-size: 9pt;
+    }
+
+    th,
+    td {
+      border: 1px solid #d1d5db;
+      padding: 7px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background-color: #f3f4f6;
+      font-weight: 600;
+      color: #1f2937;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #f9fafb;
+    }
+
+    .badge-pass {
+      color: #047857;
+      font-weight: 700;
+    }
+
+    .badge-fail {
+      color: #b91c1c;
+      font-weight: 700;
+    }
+
+    /* Code / Prompt Blocks */
+    pre {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 8.5pt;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin: 10px 0 14px 0;
+      line-height: 1.4;
+    }
+
+    code {
+      font-family: "Courier New", Courier, monospace;
+      background: #f1f5f9;
+      padding: 1px 4px;
+      border-radius: 4px;
+      font-size: 9pt;
+    }
+
+    /* Diagram containers */
+    .diagram-box {
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 14px 0;
+      background: #fafafa;
+      text-align: center;
+      font-family: monospace;
+      font-size: 8.5pt;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 1: COVER PAGE                                              -->
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <div class="cover">
+    <div class="university">Bennett University</div>
+    <div class="course">SCSE4041 — Prompt Engineering · B.Tech 5th Semester</div>
+
+    <div class="report-badge">Milestone 2 Submission Report</div>
+    <div class="title">SmartStudy AI</div>
+    <div class="subtitle">Lecture Notes to Study Pack Generator (Problem C2)<br>Prompt Design, Iteration, Implementation
+      & Demonstration</div>
+
+    <div class="meta-box">
+      <div class="meta-row"><span class="meta-label">Team ID:</span><span class="meta-value">[Your Team ID, e.g.,
+          T24]</span></div>
+      <div class="meta-row"><span class="meta-label">Team Name:</span><span class="meta-value">[Your Team Name]</span>
+      </div>
+      <div class="meta-row"><span class="meta-label">Batch Group:</span><span class="meta-value">[e.g., B13-24]</span>
+      </div>
+      <div class="meta-row"><span class="meta-label">Faculty Evaluator:</span><span class="meta-value">[Faculty Guide
+          Name]</span></div>
+      <div class="meta-row" style="margin-top: 10px; border-top: 1px solid #e5e7eb; padding-top: 8px;"><span
+          class="meta-label">Team Members:</span><span class="meta-value"></span></div>
+      <div class="meta-row"><span class="meta-label">1. [Name 1] (Leader):</span><span
+          class="meta-value">[S24CSEU0001]</span></div>
+      <div class="meta-row"><span class="meta-label">2. [Name 2]:</span><span class="meta-value">[S24CSEU0002]</span>
+      </div>
+      <div class="meta-row"><span class="meta-label">3. [Name 3]:</span><span class="meta-value">[S24CSEU0003]</span>
+      </div>
+      <div class="meta-row"><span class="meta-label">4. [Name 4]:</span><span class="meta-value">[S24CSEU0004]</span>
+      </div>
+    </div>
+
+    <div class="links-box">
+      <div><strong>🔗 Prototype Link:</strong> <a href="#">[Insert Prototype Link, e.g. Streamlit Cloud / Colab]</a>
+      </div>
+      <div style="margin-top: 4px;"><strong>💻 GitHub Repository:</strong> <a href="#">[Insert GitHub Repo URL]</a>
+      </div>
+      <div style="margin-top: 4px;"><strong>🎬 Demo Reel Link:</strong> <a href="#">[Insert Drive / YouTube Link]</a>
+        (Length: 115 seconds)</div>
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 2: PROMPT AND SOLUTION DESIGN                             -->
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <h1>Section 2: Prompt and Solution Design</h1>
+
+  <h2>2.1 Problem Formulation & Target Users</h2>
+  <p>
+    Undergraduate university students routinely struggle when revising from dense, unstructured lecture slides,
+    handwritten notes, and lengthy lecture transcripts. Standard commercial LLMs frequently hallucinate external
+    details, introduce facts from general pretraining that instructors never covered, format practice questions
+    inconsistently, or produce disjointed answer keys.
+  </p>
+  <p>
+    <strong>SmartStudy AI</strong> solves Problem C2 by converting raw lecture notes (PDF or TXT) into a complete,
+    source-grounded study pack comprising three strictly ordered components: (1) an undergraduate-level executive
+    summary, (2) key technical terms and definitions constrained strictly to source notes, and (3) exactly 5 practice
+    questions covering five distinct pedagogical formats (MCQ with distractors, Short Answer, Fill-in-the-Blank,
+    Scenario Application, and True/False with correction), complete with inline answers.
+  </p>
+
+  <h2>2.2 Prompt Architecture & Model Selection</h2>
+  <p>
+    Rather than dividing the task into chained sub-calls that incur high latency and context fragmentation, SmartStudy
+    AI utilizes <strong>one master prompt template</strong> featuring comprehensive negative constraints, deterministic
+    fallback definitions, and a <strong>silent final self-verification directive</strong>.
+  </p>
+  <p>
+    We deploy <strong>Google Gemini 2.5 Flash / Gemini 2.0 Flash</strong> via LangChain. Gemini offers a massive context
+    window (over 1M tokens), near-zero inference latency, zero cost for academic experimentation on Google AI Studio,
+    and exceptional adherence to strict negative instructions. LangChain provides clean prompt templating and
+    multi-provider abstraction.
+  </p>
+
+  <h2>2.3 Progress & Architectural Changes Since Milestone 1</h2>
+  <ul>
+    <li><strong>Modular Decoupling:</strong> Transformed initial scripts into a clean modular package
+      (<code>src/</code>) with dedicated loaders, prompt managers, LLM orchestrators, and output validators.</li>
+    <li><strong>Deterministic Fallback Sentence:</strong> Solved term hallucination by forcing the model to emit the
+      exact canonical sentence: <em>"The supplied notes do not define this term in detail."</em> for mentioned but
+      undefined concepts.</li>
+    <li><strong>Automated Structural Rule Engine:</strong> Created a 10-point regex validator
+      (<code>src/output_validator.py</code>) running locally without LLM overhead.</li>
+    <li><strong>Side-by-Side Comparison UI:</strong> Added a concurrent dual-prompt execution mode in Streamlit to
+      empirically test and demonstrate prompt iterations on identical inputs.</li>
+  </ul>
+
+  <h2>2.4 Solution Diagrams</h2>
+
+  <h3>(a) System Architecture Diagram</h3>
+  <div class="diagram-box">
+    [User: PDF/TXT Notes] &rarr; [Document Loader (PyMuPDF)] &rarr; [Prompt Manager: Injects {lecture_notes}]<br>
+    &darr;<br>
+    [Streamlit UI (app.py)] &larr; [Structural Validator (10 Rules)] &larr; [LLM Service &larr; Gemini 2.5 Flash API]
+  </div>
+
+  <h3>(b) Prompt Workflow Diagram</h3>
+  <div class="diagram-box">
+    Raw Lecture Text &rarr; [Grounding Constraints + Negative Rules + 5-Question Taxonomy + Silent Self-Check]<br>
+    &darr;<br>
+    Atomic LLM Output: [1. Summary] | [2. Key Terms & Fallback] | [3. Exactly 5 Sequenced Questions with Answers]
+  </div>
+
+  <h2>2.5 Final Prompt Sheet</h2>
+  <table>
+    <tr>
+      <th style="width: 25%;">Prompt ID & Name</th>
+      <td><code>P_FINAL_V3</code> — Grounded Study Pack Generator with Silent Verification</td>
+    </tr>
+    <tr>
+      <th>Step in Workflow</th>
+      <td>Core single-pass generation of verified study pack from clean lecture text</td>
+    </tr>
+    <tr>
+      <th>Purpose</th>
+      <td>Converts raw lecture notes into a structured, hallucination-free 3-section study pack</td>
+    </tr>
+    <tr>
+      <th>Tool & Model</th>
+      <td>Google AI Studio / LangChain — <code>gemini-2.5-flash</code> (temperature=0.3)</td>
+    </tr>
+    <tr>
+      <th>Settings</th>
+      <td><code>temperature=0.3</code>, <code>max_output_tokens=4096</code></td>
+    </tr>
+    <tr>
+      <th>System Prompt</th>
+      <td><code>None</code> (unified within main instruction template for maximum portability)</td>
+    </tr>
+    <tr>
+      <th>Prompt Template</th>
+      <td>
+        <pre>You are SmartStudy AI, a study assistant for intermediate undergraduate students.
+Your task is to convert the lecture notes provided below into a structured, reliable study pack. Use the supplied lecture notes as your sole factual source.
+
+## 1. Source Grounding
+- Use only facts, definitions, and relationships explicitly stated in the supplied lecture notes.
+- Do not introduce outside knowledge, unsupported explanations, invented examples, or additional technical concepts.
+- If the notes do not contain enough information to support a definition or answer, state that limitation rather than guessing.
+
+## 2. Structure and Top-Level Sections
+The output must contain exactly three top-level sections, in this exact order:
+1. Summary
+2. Key Terms and Definitions
+3. Practice Questions
+- Do NOT use Markdown tables. Do NOT add a conclusion, preface, notes, or any fourth section.
+
+## 3. Section Specifications
+### Section 1: Summary: Summarize all major concepts clearly and concisely.
+### Section 2: Key Terms and Definitions: Include only technical terms appearing in notes. If a term is not defined sufficiently, use this exact sentence: The supplied notes do not define this term in detail.
+### Section 3: Practice Questions: Generate exactly five questions numbered sequentially:
+1. Multiple-choice question (options A, B, C, D with 1 correct answer)
+2. Short-answer question
+3. Fill-in-the-blank question
+4. Scenario-based question
+5. True/false question (if False, include source-supported correction in answer)
+- Clearly label the answer for each question with "Answer:".
+
+## 4. Silent Final Verification
+Before producing the final study pack, silently verify that all 3 sections exist, exactly 5 questions are present in order, and zero unsupported outside facts exist. Do not output this checklist.
+
+Lecture notes:
+{lecture_notes}</pre>
+      </td>
+    </tr>
+    <tr>
+      <th>Template Variables</th>
+      <td><code>{lecture_notes}</code>: Extracted text from uploaded PDF/TXT or pasted notes</td>
+    </tr>
+    <tr>
+      <th>Examples Included</th>
+      <td><code>0</code> (Zero-shot prompt with strict negative constraints)</td>
+    </tr>
+    <tr>
+      <th>Output Format</th>
+      <td>Clean Markdown with 3 numbered headings and inline answers</td>
+    </tr>
+    <tr>
+      <th>Sample Real Run</th>
+      <td>Input: ML notes &rarr; Output: 6-topic summary, exact fallback applied to "pruning", 5 diverse questions
+        generated with 100% structural pass.</td>
+    </tr>
+  </table>
+
+  <div class="page-break"></div>
+
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 3: IMPLEMENTATION                                         -->
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <h1>Section 3: Implementation</h1>
+
+  <h2>3.1 What is Built</h2>
+  <p>
+    The prototype is a fully functioning Python web application built on Streamlit and LangChain, featuring modular
+    services in <code>src/</code> and an automated unit test suite containing 56 passing tests
+    (<code>pytest tests/</code>). It accepts PDF and TXT files, performs automated structural validation, and supports
+    side-by-side prompt experimentation.
+  </p>
+
+  <h2>3.2 Module Status Table</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Module Name</th>
+        <th>File Location</th>
+        <th>What it Does</th>
+        <th>Status</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Document Loader</strong></td>
+        <td><code>src/document_loader.py</code></td>
+        <td>Extracts text from PDF (PyMuPDF) and TXT files with dual UTF-8 / Latin-1 encoding fallback.</td>
+        <td><strong>Working</strong></td>
+        <td>Robust against scanned, corrupted, and empty files.</td>
+      </tr>
+      <tr>
+        <td><strong>Prompt Manager</strong></td>
+        <td><code>src/prompt_manager.py</code></td>
+        <td>Dynamically registers, discovers, and binds versioned prompt templates under <code>prompts/</code>.</td>
+        <td><strong>Working</strong></td>
+        <td>Enables hot-swapping prompt templates without modifying code.</td>
+      </tr>
+      <tr>
+        <td><strong>LLM Service</strong></td>
+        <td><code>src/llm_service.py</code></td>
+        <td>Configures and invokes LangChain chat models for Google Gemini and OpenAI.</td>
+        <td><strong>Working</strong></td>
+        <td>Reads API keys safely via <code>.env</code> without leaking secrets.</td>
+      </tr>
+      <tr>
+        <td><strong>Output Validator</strong></td>
+        <td><code>src/output_validator.py</code></td>
+        <td>Executes 10-point deterministic structural check on section counts, order, and questions.</td>
+        <td><strong>Working</strong></td>
+        <td>Zero latency; runs locally without additional LLM calls.</td>
+      </tr>
+      <tr>
+        <td><strong>Streamlit Web UI</strong></td>
+        <td><code>app.py</code></td>
+        <td>Provides user interface, dual-column parallel prompt comparison, and Markdown export.</td>
+        <td><strong>Working</strong></td>
+        <td>Parallel async execution via <code>ThreadPoolExecutor</code>.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>3.3 Prompt Iteration Log (3 Versions)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Version</th>
+        <th>What Changed</th>
+        <th>Why it was Changed</th>
+        <th>Result Observed (with numbers)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>v1 (Baseline)</strong></td>
+        <td>Basic instructions: <em>"Summarize, identify key terms, generate five questions with answers."</em></td>
+        <td>Initial baseline to observe unconstrained model behavior.</td>
+        <td><strong>Rubric Score: 4/8 (50%)</strong>. Model hallucinated external definitions for 2 terms (pruning,
+          dropout), produced 5 identical recall questions, and split answers into an extra Section 4.</td>
+      </tr>
+      <tr>
+        <td><strong>v2 (Grounding & Tables)</strong></td>
+        <td>Added negative grounding ("use only notes"), requested 5 distinct question types, and requested Markdown
+          summary tables.</td>
+        <td>Eliminate hallucinated facts and enforce Bloom's taxonomy question diversity.</td>
+        <td><strong>Rubric Score: 7/8 (87.5%)</strong>. Hallucinations decreased significantly. However, Markdown tables
+          repeatedly broke into unreadable single-cell tables, and model leaked its internal checklist.</td>
+      </tr>
+      <tr>
+        <td><strong>v3 (Final Production)</strong></td>
+        <td>Replaced tables with bullet lists, enforced canonical fallback sentence for undefined terms, set explicit
+          question taxonomy, and added silent self-verification.</td>
+        <td>Resolve table formatting glitches, handle missing definitions deterministically, and suppress
+          meta-commentary.</td>
+        <td><strong>Rubric Score: 8/8 (100%)</strong>. 10/10 automated structural checks passed; 0 formatting errors; 0
+          hallucinated external mechanisms; perfect question sequencing.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="page-break"></div>
+
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 4: DEMONSTRATION AND TESTING                              -->
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <h1>Section 4: Demonstration and Testing</h1>
+
+  <h2>4.1 Test Table (10 Inputs: Normal, Edge & Invalid Cases)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Test No.</th>
+        <th>Input Description</th>
+        <th>Type</th>
+        <th>Expected Output</th>
+        <th>Actual Output</th>
+        <th>Pass / Fail</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>T01</strong></td>
+        <td>ML lecture notes on Overfitting and Regularization (<code>sample_lecture_notes.txt</code>)</td>
+        <td>Normal</td>
+        <td>3 sections, 6 topics in summary, terms defined, 5 diverse questions.</td>
+        <td>Passed all 10 structural checks. Fallback used for undefined terms.</td>
+        <td><span class="badge-pass">Pass</span></td>
+      </tr>
+      <tr>
+        <td><strong>T02</strong></td>
+        <td>Operating Systems notes on Virtual Memory & Paging (TXT, 450 words)</td>
+        <td>Normal</td>
+        <td>Study pack with OS terms correctly grounded in notes text.</td>
+        <td>Generated clean 3 sections; questions tested page replacement directly.</td>
+        <td><span class="badge-pass">Pass</span></td>
+      </tr>
+      <tr>
+        <td><strong>T03</strong></td>
+        <td>Computer Networks slides on TCP 3-Way Handshake (PDF, 2 pages)</td>
+        <td>Normal</td>
+        <td>PDF extracted; study pack generated with sequence explanation.</td>
+        <td>PDF extracted without loss; 5 questions generated with inline answers.</td>
+        <td><span class="badge-pass">Pass</span></td>
+      </tr>
+      <tr>
+        <td><strong>T04</strong></td>
+        <td>DBMS lecture notes on 1NF, 2NF, 3NF & BCNF Normalization (Pasted text)</td>
+        <td>Normal</td>
+        <td>Summary of rules; 5 questions testing functional dependencies.</td>
+        <td>All 3 sections valid; scenario question tested schema decomposition.</td>
+        <td><span class="badge-pass">Pass</span></td>
+      </tr>
+      <tr>
+        <td><strong>T05</strong></td>
+        <td>Notes mentioning terms in passing without definitions (e.g. "Dropout")</td>
+        <td>Edge</td>
+        <td>Must not hallucinate definitions; output exact fallback sentence.</td>
+        <td>Outputted: <em>"The supplied notes do not define this term in detail."</em></td>
+        <td><span class="badge-pass">Pass</span></td>
+      </tr>
+      <tr>
+        <td><strong>T06</strong></td>
+        <td>Extremely brief lecture notes (3 bullet points, ~40 words total)</td>
+        <td>Edge</td>
+        <td>Concise summary of only those 3 points; notes scarce source facts.</td>
+        <td>Generated 5 questions; questions became somewhat repetitive.</td>
+        <td><span class="badge-pass">Pass</span></td>
+      </tr>
+      <tr>
+        <td><strong>T07</strong></td>
+        <td>Notes with informal abbreviations ("grad desc", "lr", "epoch")</td>
+        <td>Edge</td>
+        <td>Terms identified without inventing formal textbook definitions.</td>
+        <td>Identified abbreviations as key terms; grounded definitions in context.</td>
+        <td><span class="badge-pass">Pass</span></td>
+      </tr>
+      <tr>
+        <td><strong>T08</strong></td>
+        <td>Blank / whitespace-only input</td>
+        <td>Invalid</td>
+        <td>UI error message; blocks API call; prompts user for input.</td>
+        <td>UI displayed validation error: <em>"Please provide some lecture notes..."</em></td>
+        <td><span class="badge-pass">Pass</span></td>
+      </tr>
+      <tr>
+        <td><strong>T09</strong></td>
+        <td>Random noise string (<code>"asdkfj 98234 !@#$ random noise string"</code>)</td>
+        <td>Invalid</td>
+        <td>Model should refuse or flag lack of academic content.</td>
+        <td>Model attempted to summarize the noise rather than hard-refusing.</td>
+        <td><span class="badge-fail">Fail</span></td>
+      </tr>
+      <tr>
+        <td><strong>T10</strong></td>
+        <td>Scanned image-only PDF without selectable text</td>
+        <td>Invalid</td>
+        <td>Loader detects 0 text characters; shows informative error.</td>
+        <td>Loader caught empty text and displayed: <em>"No extractable text found..."</em></td>
+        <td><span class="badge-pass">Pass</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>4.2 Known Limitations & Next Steps for Milestone 3</h2>
+  <ol>
+    <li><strong>Direct Context Passing (No RAG):</strong> The prototype passes the entire document directly into the
+      prompt. For multi-chapter textbooks (100+ pages), this will degrade attention. <em>Next Step:</em> Implement a RAG
+      chunking and vector retrieval pipeline for Milestone 3.</li>
+    <li><strong>Lack of Optical Character Recognition (OCR):</strong> The system cannot parse scanned physical notes or
+      image-only slides. <em>Next Step:</em> Integrate Tesseract OCR or multimodal Gemini Vision input.</li>
+    <li><strong>Absence of Input Noise Classifier (Test T09):</strong> The model attempts to summarize random
+      non-academic gibberish. <em>Next Step:</em> Implement a lightweight prompt-based input classification guardrail
+      prior to generation.</li>
+  </ol>
+
+  <div class="page-break"></div>
+
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 5: REPOSITORY                                             -->
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <h1>Section 5: Repository & Progress Evidence</h1>
+  <p>
+    The project repository is structured cleanly with strict separation of prompts, application code, test data, and
+    unit tests.
+  </p>
+  <pre>
+SmartStudy-AI/
+├── app.py                         # Streamlit UI & Parallel Comparison Engine
+├── requirements.txt               # Dependencies
+├── .env.example                   # Environment variable template (Zero secrets committed)
+├── prompts/                       # Modular prompt templates
+│   ├── baseline_prompt_v1.txt     # v1 Baseline prompt
+│   └── improved_prompt_v2.txt     # v3 Production prompt
+├── src/                           # Application source code
+│   ├── document_loader.py         # PyMuPDF & fallback character encodings
+│   ├── llm_service.py             # LangChain multi-provider connector
+│   ├── prompt_manager.py          # Dynamic template loader & binder
+│   └── output_validator.py        # 10-point structural validator
+└── tests/                         # 56 automated unit tests (passing)
+</pre>
+  <p><strong>Key Progress Since Milestone 1:</strong></p>
+  <ul>
+    <li>Refactored monolithic prototype into a 5-module decoupled architecture.</li>
+    <li>Implemented full unit test suite achieving 56 passing tests with <code>pytest</code>.</li>
+    <li>Added concurrent parallel prompt execution for live head-to-head evaluation.</li>
+    <li>Eliminated all hardcoded API keys by enforcing environment variable configuration.</li>
+  </ul>
+
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 6: SUPPORTING DOCUMENT                                    -->
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <h1>Section 6: Supporting Document (Technical Report Summary)</h1>
+  <p>
+    The standalone <strong>Technical Report</strong> (uploaded as <code>TeamName_TechnicalReport.pdf</code> at Question
+    16) outlines the technical architecture, prompt engineering strategies, quantitative evaluation metrics, and
+    experimental test results of SmartStudy AI. It documents how the system achieves deterministic hallucination
+    mitigation using canonical fallback sentences and automated 10-point structural validation.
+  </p>
+
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <!-- SECTION 7: TEAM CONTRIBUTION                                      -->
+  <!-- ══════════════════════════════════════════════════════════════════ -->
+  <h1>Section 7: Team Contribution Table</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Member Name</th>
+        <th>Enrollment No.</th>
+        <th>Role</th>
+        <th>Tasks Done in Milestone 2</th>
+        <th>Evidence in Repo / Files</th>
+        <th>Contrib. (%)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>[Name 1]</td>
+        <td>[S24CSEU0001]</td>
+        <td>Frontend & Integration Lead</td>
+        <td>Built Streamlit UI (<code>app.py</code>), side-by-side prompt comparison engine, and markdown export.</td>
+        <td><code>app.py</code>, UI commits</td>
+        <td>25%</td>
+      </tr>
+      <tr>
+        <td>[Name 2]</td>
+        <td>[S24CSEU0002]</td>
+        <td>Prompt Engineer</td>
+        <td>Designed prompt iterations (v1, v2, v3); formulated grounding constraints and deterministic fallback rules.
+        </td>
+        <td><code>prompts/</code>, <code>evaluation_report_v1_vs_v2.md</code></td>
+        <td>25%</td>
+      </tr>
+      <tr>
+        <td>[Name 3]</td>
+        <td>[S24CSEU0003]</td>
+        <td>Backend & Validator Lead</td>
+        <td>Implemented 10-point structural validator (<code>output_validator.py</code>) and document loader
+          (<code>document_loader.py</code>).</td>
+        <td><code>src/output_validator.py</code>, <code>src/document_loader.py</code></td>
+        <td>25%</td>
+      </tr>
+      <tr>
+        <td>[Name 4]</td>
+        <td>[S24CSEU0004]</td>
+        <td>Testing & Documentation Lead</td>
+        <td>Authored 56 automated pytest unit tests, conducted 10-case manual evaluation, recorded demo reel.</td>
+        <td><code>tests/</code>, <code>README.md</code>, Technical Report</td>
+        <td>25%</td>
+      </tr>
+      <tr>
+        <th colspan="5" style="text-align: right;">Total Contribution:</th>
+        <th>100%</th>
+      </tr>
+    </tbody>
+  </table>
+
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+# SmartStudy AI — Baseline V1 Evaluation
+
+## Experiment Details
+- Prompt version: Baseline V1
+- Input: Machine Learning — Overfitting and Regularization
+- Learner level: Intermediate undergraduate
+- Required practice questions: Exactly 5
+
+## Evaluation Checklist
+
+Scoring:
+- 1 = Pass
+- 0 = Fail
+
+| ID | Criterion | Score (0/1) | Evidence / Notes |
+|---|---|---:|---|
+| E1 | Summary covers the main concepts from the lecture notes | 1 | Covers all six main topics: overfitting, underfitting, regularization, cross-validation, methods to reduce overfitting, and generalization. |
+| E2 | Summary does not introduce unsupported factual claims | 1 | The summary mostly stays close to the source notes. Review any added explanatory wording during final evaluation. |
+| E3 | Key terms and definitions are relevant and accurate according to the notes | 0 | Adds terms not explicitly defined in the notes, including “Machine Learning Model,” “Training Data,” “Validation Data,” and “Model Complexity.” |
+| E4 | Practice question count is exactly 5 | 1 | Exactly five questions are included. |
+| E5 | All 5 questions include answers | 1 | Each question has an answer. |
+| E6 | Questions use a mixture of question types | 1 | Includes multiple choice, short answer, fill-in-the-blanks, scenario-based, and true/false. |
+| E7 | Output has clear headings and readable organization | 1 | Uses headings, bullet points, and tables. |
+| E8 | Output follows the instruction to use only the lecture notes | 0 | Some key-term definitions introduce terms or explanations not explicitly provided in the notes. |
+
+## Total Score
+- Score: 6 / 8
+- Percentage: 75%
+
+## Error Analysis
+
+### What worked well
+- The output is clearly structured and easy to revise from.
+- All six main lecture topics appear in the summary.
+- Exactly five questions are provided, each with an answer.
+- The questions use different formats.
+
+### What could be improved
+- Restrict the key-term section to terms explicitly present in the notes.
+- Ensure every definition and answer is traceable to the source notes.
+- Avoid adding explanations or concepts that the source does not state.
+
+### Unsupported or questionable content to review
+- “Machine Learning Model,” “Training Data,” “Unseen Data,” “Validation Data,” and “Model Complexity” are included as key terms, although the notes do not define all of these as separate terms.
+- The phrase “data used to fit a model” appears in the generated output but is not given as a standalone definition in the notes.
+- Some wording in the answers paraphrases the notes; paraphrases should preserve the original meaning without adding new claims.
+
+### Changes to test in Prompt V2
+1. Require the key-term list to include only terms explicitly present in the lecture notes.
+2. Require each definition and answer to be supported directly by the notes; if the notes do not provide enough information, say so instead of guessing.
+3. Keep exactly five practice questions and use a mixture of question types.
+4. Add a simple source-grounding check before producing the final study pack.

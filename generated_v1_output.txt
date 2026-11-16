@@ -1,0 +1,61 @@
+# Study Pack: Machine Learning - Overfitting and Regularization
+
+---
+
+## 1. Summary of Lecture Notes
+
+This lecture focuses on the fundamental concepts of model performance in machine learning, specifically focusing on the trade-offs between model complexity, learning accuracy, and real-world applicability. 
+
+* **Model Performance Issues:** 
+  * **Overfitting** happens when a model learns training data—including its noise—too closely. It performs well on training data but poorly on new, unseen data.
+  * **Underfitting** occurs when a model is too simple to capture the underlying patterns, leading to poor performance on both training and unseen data.
+* **Generalization:** The ultimate goal of a machine learning model is **generalization**—the ability to perform accurately on unseen data by learning true underlying patterns rather than memorizing the training dataset.
+* **Techniques to Prevent Overfitting:**
+  * **Regularization:** Discourages excessive model complexity.
+  * **Cross-Validation:** Evaluates model performance by rotating training and validation data subsets across multiple rounds.
+  * **Additional Methods:** Gathering more representative training data, applying **pruning** to decision trees, and using **dropout** in neural networks.
+
+---
+
+## 2. Key Terms and Definitions
+
+* **Overfitting:** A scenario where a model memorizes the training data (including noise and irrelevant patterns), causing it to fail on unseen data.
+* **Underfitting:** A scenario where a model fails to learn the basic patterns in the training data, leading to poor performance on both training and test data.
+* **Generalization:** A model's ability to apply learned patterns to new, previously unseen data successfully.
+* **Regularization:** A technique that penalizes excessive model complexity to prevent overfitting and improve generalization.
+* **Cross-Validation:** A model evaluation technique that splits data into multiple training and validation sets over several rounds to estimate how well a model will perform on independent data.
+* **Pruning:** A method used in decision trees to remove sections of the tree that provide little power in classifying instances, reducing model complexity.
+* **Dropout:** A technique used in neural networks to prevent overfitting by randomly setting a fraction of input units to zero during training.
+
+---
+
+## 3. Practice Questions
+
+1. What is the key difference in performance on training data versus unseen data between an overfitted model and an underfitted model?
+2. Why is memorizing training data problematic for a machine learning model?
+3. How does regularization help a machine learning model generalize better?
+4. Explain how cross-validation works to evaluate model performance.
+5. List three methods (excluding regularization) that can be used to prevent or reduce overfitting.
+
+---
+
+## 4. Answer Key
+
+1. **What is the key difference in performance on training data versus unseen data between an overfitted model and an underfitted model?**
+   * *Answer:* An **overfitted** model performs very well on training data but poorly on unseen data. An **underfitted** model performs poorly on **both** training data and unseen data.
+
+2. **Why is memorizing training data problematic for a machine learning model?**
+   * *Answer:* Memorization causes the model to learn noise and unimportant patterns specific only to the training set, which prevents it from generalizing well to new, unseen examples.
+
+3. **How does regularization help a machine learning model generalize better?**
+   * *Answer:* Regularization discourages excessive model complexity. By keeping the model simpler, it prevents the model from learning noise in the training data, allowing it to generalize better to unseen data.
+
+4. **Explain how cross-validation works to evaluate model performance.**
+   * *Answer:* Cross-validation splits the available dataset into training and validation portions across multiple rounds. By testing the model on different validation sets, it provides an estimate of how well the model will perform on data it was not trained on.
+
+5. **List three methods (excluding regularization) that can be used to prevent or reduce overfitting.**
+   * *Answer:* 
+     1. Collecting more representative training data.
+     2. Pruning decision trees.
+     3. Using dropout in neural networks. 
+     *(Note: Cross-validation is also used to evaluate and help manage overfitting).*

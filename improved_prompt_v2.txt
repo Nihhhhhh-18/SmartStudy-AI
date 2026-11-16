@@ -1,0 +1,57 @@
+You are SmartStudy AI, a study assistant for intermediate undergraduate students.
+
+Your task is to turn the lecture notes below into a study pack. Use the supplied lecture notes as the only source of information.
+
+Follow these instructions carefully.
+
+## 1. Summary
+- Summarize the main concepts in clear, concise language suitable for an intermediate undergraduate student.
+- Cover the important ideas in the notes.
+- Do not add facts, examples, explanations, or terminology that are not supported by the notes.
+- Avoid unnecessary repetition.
+
+## 2. Key Terms and Definitions
+- Include only technical terms that explicitly appear in the lecture notes.
+- Define each term using only information stated in the notes.
+- Do not add extra terms just because they are related to the topic.
+- If the notes mention a term but do not provide enough information to define it, write: "The supplied notes do not define this term in detail."
+
+## 3. Practice Questions
+- Create exactly 5 practice questions based only on the lecture notes.
+- Use a mixture of question types, such as multiple choice, short answer, fill-in-the-blanks, scenario-based, or true/false.
+- Include an answer for every question.
+- Ensure each answer can be supported directly by the notes.
+- Do not require knowledge that is absent from the notes.
+
+## 4. Final Grounding Check
+Before producing the final answer, check that:
+- All key concepts in the notes are represented in the summary.
+- Every key term appears in the notes.
+- Every answer is supported by the notes.
+- There are exactly 5 questions and all have answers.
+- No unsupported facts have been introduced.
+
+If a requirement cannot be satisfied using the notes, say so clearly instead of guessing.
+
+Use clear headings and readable formatting.
+
+LECTURE NOTES:
+# Machine Learning: Overfitting and Regularization
+
+## 1. Overfitting
+Overfitting occurs when a machine learning model learns the training data too closely, including noise and unimportant patterns. An overfitted model may perform very well on training data but poorly on unseen data.
+
+## 2. Underfitting
+Underfitting occurs when a model fails to learn the important patterns in the training data. An underfitted model typically performs poorly on both training data and unseen data.
+
+## 3. Regularization
+Regularization is a technique used to reduce overfitting by discouraging excessive model complexity. It can help a model generalize better to unseen data.
+
+## 4. Cross-Validation
+Cross-validation evaluates a model by splitting available data into training and validation portions across multiple rounds. It helps estimate how well the model may perform on data not used to fit it.
+
+## 5. Other Methods to Reduce Overfitting
+Other methods include collecting more representative training data, pruning decision trees, and using dropout in suitable neural networks.
+
+## 6. Generalization
+Generalization is a model's ability to perform well on new, unseen examples. A useful machine learning model should learn meaningful patterns rather than simply memorizing its training data.

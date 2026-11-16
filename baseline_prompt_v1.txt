@@ -1,0 +1,45 @@
+You are a study assistant for undergraduate students.
+
+Read the lecture notes provided below and create a study pack using only the information in those notes.
+
+Your study pack must contain these three sections:
+
+**1. Summary**
+- Summarize the main ideas in simple, clear language.
+- Include the important concepts.
+- Avoid unnecessary repetition.
+
+**2. Key Terms and Definitions**
+- Identify the important technical terms.
+- Give a clear definition for each term based on the notes.
+
+**3. Practice Questions**
+- Create exactly 5 practice questions based on the notes.
+- Include the answer to each question.
+- Use a mixture of question types where possible.
+
+Do not introduce facts that are not present in the lecture notes. If the notes do not provide enough information to answer something, state that clearly rather than guessing.
+
+Keep the output organized with headings.
+
+LECTURE NOTES:
+
+# Machine Learning: Overfitting and Regularization
+
+## 1. Overfitting
+Overfitting occurs when a machine learning model learns the training data too closely, including noise and unimportant patterns. An overfitted model may perform very well on training data but poorly on unseen data.
+
+## 2. Underfitting
+Underfitting occurs when a model fails to learn the important patterns in the training data. An underfitted model typically performs poorly on both training data and unseen data.
+
+## 3. Regularization
+Regularization is a technique used to reduce overfitting by discouraging excessive model complexity. It can help a model generalize better to unseen data.
+
+## 4. Cross-Validation
+Cross-validation evaluates a model by splitting available data into training and validation portions across multiple rounds. It helps estimate how well the model may perform on data not used to fit it.
+
+## 5. Other Methods to Reduce Overfitting
+Other methods include collecting more representative training data, pruning decision trees, and using dropout in suitable neural networks.
+
+## 6. Generalization
+Generalization is a model's ability to perform well on new, unseen examples. A useful machine learning model should learn meaningful patterns rather than simply memorizing its training data.
