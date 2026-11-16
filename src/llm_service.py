@@ -27,8 +27,17 @@ class LLMConfigError(Exception):
 
 
 def _get_env(name: str, default: str | None = None) -> str:
-    """Read an environment variable, stripping whitespace."""
-    value = os.getenv(name, default)
+    """Read an environment variable or Streamlit secret, stripping whitespace."""
+    value = os.getenv(name)
+    if value is None:
+        try:
+            import streamlit as st
+            if hasattr(st, "secrets") and name in st.secrets:
+                value = str(st.secrets[name])
+        except Exception:
+            pass
+    if value is None:
+        value = default
     if value is not None:
         value = value.strip()
     return value  # type: ignore[return-value]

@@ -34,3 +34,13 @@ env/
 # Streamlit
 .streamlit/secrets.toml
 .streamlit/credentials.toml
+
+# Milestone submission files & internal drafts (local only)
+CHANGELOG.md
+generate_milestone_pdfs.py
+M2_Milestone2_Report.html
+M2_TeamID_SmartStudyAI.pdf
+reel_script_115_seconds.md
+TeamName_TechnicalReport.html
+TeamName_TechnicalReport.pdf
+docs/
