@@ -15,6 +15,11 @@ import os
 from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
 
+try:
+    import streamlit as st
+except ImportError:
+    st = None  # type: ignore
+
 # Load .env file so API keys are available
 load_dotenv()
 
@@ -26,21 +31,99 @@ class LLMConfigError(Exception):
     """Raised when the LLM cannot be configured (missing key, bad provider, etc.)."""
 
 
+def _search_streamlit_secrets(candidate_keys: list[str]) -> str | None:
+    """Safely search st.secrets for any of candidate_keys (case-insensitive, deep)."""
+    try:
+        if st is None or not hasattr(st, "secrets") or not st.secrets:
+            return None
+
+        lower_candidates = {k.lower() for k in candidate_keys}
+
+        def _walk(item):
+            # Check direct keys if dict-like
+            if hasattr(item, "keys"):
+                for k in list(item.keys()):
+                    if str(k).lower() in lower_candidates:
+                        val = item[k]
+                        if val is not None and str(val).strip():
+                            return str(val).strip()
+                for k in list(item.keys()):
+                    val = item[k]
+                    res = _walk(val)
+                    if res:
+                        return res
+            elif isinstance(item, (list, tuple)):
+                for elem in item:
+                    res = _walk(elem)
+                    if res:
+                        return res
+            return None
+
+        return _walk(st.secrets)
+    except Exception:
+        return None
+
+
+def _search_environ(candidate_keys: list[str]) -> str | None:
+    """Search os.environ for candidate_keys (exact match first, then case-insensitive)."""
+    # 1. Exact match
+    for key in candidate_keys:
+        val = os.getenv(key)
+        if val is not None and val.strip():
+            return val.strip()
+
+    # 2. Case-insensitive match
+    lower_candidates = {k.lower() for k in candidate_keys}
+    for env_k, env_v in os.environ.items():
+        if env_k.lower() in lower_candidates and env_v and env_v.strip():
+            return env_v.strip()
+
+    return None
+
+
 def _get_env(name: str, default: str | None = None) -> str:
-    """Read an environment variable or Streamlit secret, stripping whitespace."""
-    value = os.getenv(name)
-    if value is None:
-        try:
-            import streamlit as st
-            if hasattr(st, "secrets") and name in st.secrets:
-                value = str(st.secrets[name])
-        except Exception:
-            pass
-    if value is None:
-        value = default
-    if value is not None:
-        value = value.strip()
-    return value  # type: ignore[return-value]
+    """
+    Read a configuration value from os.environ or Streamlit secrets.
+    Supports case-insensitivity, deep nested sections, and provider aliases.
+    """
+    aliases_map: dict[str, list[str]] = {
+        "LLM_API_KEY": [
+            "LLM_API_KEY",
+            "GOOGLE_API_KEY",
+            "GEMINI_API_KEY",
+            "OPENAI_API_KEY",
+            "API_KEY",
+            "KEY",
+        ],
+        "LLM_PROVIDER": [
+            "LLM_PROVIDER",
+            "PROVIDER",
+        ],
+        "LLM_MODEL": [
+            "LLM_MODEL",
+            "MODEL",
+        ],
+    }
+
+    candidates = aliases_map.get(name, [name])
+
+    # 1. Check os.environ
+    env_val = _search_environ(candidates)
+    if env_val:
+        return env_val
+
+    # 2. Check streamlit.secrets (top-level and nested sections)
+    sec_val = _search_streamlit_secrets(candidates)
+    if sec_val:
+        return sec_val
+
+    return default.strip() if default is not None else ""
+
+
+def is_api_key_configured() -> bool:
+    """Return True if an LLM API key can be located in env or secrets."""
+    key = _get_env("LLM_API_KEY", "")
+    return bool(key)
 
 
 def _build_llm():
@@ -55,12 +138,16 @@ def _build_llm():
 
     if not api_key:
         raise LLMConfigError(
-            "LLM_API_KEY is not set. "
-            "Create a .env file in the project root with:\n\n"
-            "  LLM_PROVIDER=google\n"
-            "  LLM_MODEL=gemini-3.8-flash\n"
-            "  LLM_API_KEY=your-api-key-here\n\n"
-            "See .env.example for a template."
+            "LLM_API_KEY is not set.\n\n"
+            "If deployed on Streamlit Cloud:\n"
+            "1. Go to your App Settings → Secrets.\n"
+            "2. Add the following (TOML format with quotes):\n\n"
+            "     LLM_PROVIDER = \"google\"\n"
+            "     LLM_MODEL = \"gemini-2.5-flash\"\n"
+            "     LLM_API_KEY = \"your-api-key-here\"\n\n"
+            "3. Click Save and reboot the app.\n\n"
+            "Alternatively, paste your API key directly into the sidebar override field in the app.\n\n"
+            "For local runs, create a .env file with LLM_API_KEY=your-api-key-here."
         )
 
     if provider not in _SUPPORTED_PROVIDERS:
@@ -72,7 +159,7 @@ def _build_llm():
     # ── Google (Gemini) ─────────────────────────────────────────────────
     if provider == "google":
         if not model:
-            model = "gemini-3.5-flash"
+            model = "gemini-2.5-flash"
         try:
             from langchain_google_genai import ChatGoogleGenerativeAI
         except ImportError as exc:
@@ -118,7 +205,7 @@ def get_llm_info() -> dict[str, str]:
     provider = (_get_env("LLM_PROVIDER", "google") or "google").lower()
     model = _get_env("LLM_MODEL", "")
     if not model:
-        model = "gemini-3.5-flash" if provider == "google" else "gpt-4o-mini"
+        model = "gemini-2.5-flash" if provider == "google" else "gpt-4o-mini"
     return {"provider": provider, "model": model}
 
 

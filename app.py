@@ -6,6 +6,7 @@ Run with:
 """
 
 import datetime
+import os
 import streamlit as st
 
 from src.document_loader import load_document, validate_text
@@ -15,7 +16,12 @@ from src.prompt_manager import (
     get_prompt_filename,
     DEFAULT_VERSION,
 )
-from src.llm_service import generate_study_pack, get_llm_info, LLMConfigError
+from src.llm_service import (
+    generate_study_pack,
+    get_llm_info,
+    is_api_key_configured,
+    LLMConfigError,
+)
 from src.output_validator import validate_output, analyze_output, MANUAL_GROUNDING_CHECKLIST
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -136,6 +142,24 @@ with st.sidebar:
         st.markdown(f"**Model:** `{info['model']}`")
     except Exception:
         st.warning("LLM not configured yet — see .env.example")
+
+    # API key status and session override
+    key_configured = is_api_key_configured()
+    if key_configured:
+        st.success("🔑 API Key active")
+    else:
+        st.warning("⚠️ No API Key in Secrets or .env")
+
+    manual_key = st.text_input(
+        "🔑 API Key (Session Override)",
+        type="password",
+        placeholder="Paste Google or OpenAI API key…",
+        help="Paste your API key here if not configured in Streamlit Secrets. Stays strictly in memory for this session.",
+    )
+    if manual_key.strip():
+        os.environ["LLM_API_KEY"] = manual_key.strip()
+        os.environ["GOOGLE_API_KEY"] = manual_key.strip()
+        st.info("Using session API key override.")
 
     st.markdown("---")
     st.caption(
